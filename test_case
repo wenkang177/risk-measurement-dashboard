@@ -1,0 +1,11 @@
+ ##### test case #####
+data = pd.read_csv("test_var.csv")
+var_data= data["Portfolio"][250:2340]
+test_data = VaR_90_hd1[250:2340]
+pearsons_coefficient = np.corrcoef(var_data, test_data)[0][1]    ## test trader_2 historical method
+ ## test trader_2 historical method
+ 
+var_data_1= data["Portfolio_P"][250:2340]
+test_data_1 = para_day_2()[0][250:2340]
+pearsons_coefficient_1 = np.corrcoef(var_data_1, test_data_1)[0][1]
+ ## test trader_2 parametric method
