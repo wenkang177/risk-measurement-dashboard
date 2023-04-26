@@ -5,3 +5,4 @@ numpy==1.21.4
 streamlit_echarts==0.1.0
 yfinance==0.2.12
 scipy==1.7.1
+click>=7.0,<8.0
