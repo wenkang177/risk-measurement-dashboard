@@ -1,5 +1,5 @@
 import streamlit as st # pip install streamlit
-from streamlit-echarts import st_echarts
+from streamlit_echarts import st_echarts
 import numpy as np
 import yfinance as yf
 import pandas as pd
