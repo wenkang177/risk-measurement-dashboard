@@ -1,4 +1,5 @@
 import streamlit as st # pip install streamlit
+pip install streamlit-echarts
 import streamlit_echarts
 from streamlit_echarts import st_echarts
 import numpy as np
