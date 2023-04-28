@@ -74,7 +74,7 @@ weights_2 = np.array([0.097,0.112,0.098,0.083,0.397,0.214])
 return_p_2 = (weights_2*returns_s_2).sum(axis=1)   #portfolio return
 return_p_m_2 = (weights_2*returns_s_m_2).sum(axis=1)
 
-colors_2 = ['#FF3333', '#FE9D30','#70FA48','#48D7FA']
+colors_2 = ['#FF3333', '#FE9D30','#EC65FC','#F9F92D','#70FA48','#48D7FA','#4863FA']
 
 
 ###############################   Other Risk Measurement #########################
