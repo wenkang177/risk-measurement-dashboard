@@ -320,14 +320,14 @@ with tab1:
     st.caption('This is using Parametric Method Mehtod to calculate .')
 
     tab1.var1, tab1.var2, tab1.var3 = st.columns(3)                         
-    tab1.var1.metric("VaR of 90%", f"{round(np.mean(para_day()[0]),5)*100}%",round(np.mean(abs(para_day()[0]))+np.mean(abs(para_day_2()[0])),5),delta_color="inverse")
-    tab1.var2.metric("VaR of 95%", f"{round(np.mean(para_day()[2]),5)*100}%",round(np.mean(abs(para_day()[2]))+np.mean(abs(para_day_2()[2])),5),delta_color="inverse")
-    tab1.var3.metric("VaR of 99%", f"{round(np.mean(para_day()[4]),5)*100}%",round(np.mean(abs(para_day()[4]))+np.mean(abs(para_day_2()[4])),5),delta_color="inverse")
+    tab1.var1.metric("VaR of 90%", f"{round(np.mean(para_day()[0]),5)*100}%",round(np.mean(abs(para_day()[0]))-np.mean(abs(para_day_2()[0])),5)*100,delta_color="inverse")
+    tab1.var2.metric("VaR of 95%", f"{round(np.mean(para_day()[2]),5)*100}%",round(np.mean(abs(para_day()[2]))-np.mean(abs(para_day_2()[2])),5)*100,delta_color="inverse")
+    tab1.var3.metric("VaR of 99%", f"{round(np.mean(para_day()[4]),5)*100}%",round(np.mean(abs(para_day()[4]))-np.mean(abs(para_day_2()[4]))*100,5),delta_color="inverse")
     
     tab1.cvar1, tab1.cvar2, tab1.cvar3 = st.columns(3)
-    tab1.cvar1.metric("CVaR of 90%", f"{round(np.mean(para_day()[1]),5)*100}%",round(np.mean(abs(para_day()[1]))+np.mean(abs(para_day_2()[1])),5),delta_color="inverse")
-    tab1.cvar2.metric("CVaR of 95%", f"{round(np.mean(para_day()[3]),5)*100}%",round(np.mean(abs(para_day()[3]))+np.mean(abs(para_day_2()[3])),5),delta_color="inverse")
-    tab1.cvar3.metric("CVaR of 99%", f"{round(np.mean(para_day()[5]),5)*100}%",round(np.mean(abs(para_day()[5]))+np.mean(abs(para_day_2()[5])),5),delta_color="inverse")
+    tab1.cvar1.metric("CVaR of 90%", f"{round(np.mean(para_day()[1]),5)*100}%",round(np.mean(abs(para_day()[1]))-np.mean(abs(para_day_2()[1])),5)*100,delta_color="inverse")
+    tab1.cvar2.metric("CVaR of 95%", f"{round(np.mean(para_day()[3]),5)*100}%",round(np.mean(abs(para_day()[3]))-np.mean(abs(para_day_2()[3])),5)*100,delta_color="inverse")
+    tab1.cvar3.metric("CVaR of 99%", f"{round(np.mean(para_day()[5]),5)*100}%",round(np.mean(abs(para_day()[5]))-np.mean(abs(para_day_2()[5])),5)*100,delta_color="inverse")
 
 ###################         Other risk measurement     ########################
 tab1.subheader("Other risk meaurement")
@@ -1016,14 +1016,14 @@ with tab2:
     st.caption('This is using Parametric Method Mehtod to calculate .')
     
     tab2.var1, tab2.var2, tab2.var3 = st.columns(3)
-    tab2.var1.metric("VaR of 90%", f"{round(np.mean(para_day_2()[0]),5)*100}%",round(np.mean(para_day_2()[0])+np.mean(para_day()[0]),5),delta_color="inverse")
-    tab2.var2.metric("VaR of 95%", f"{round(np.mean(para_day_2()[2]),5)*100}%",round(np.mean(para_day_2()[2])+np.mean(para_day()[2]),5),delta_color="inverse")
-    tab2.var3.metric("VaR of 99%", f"{round(np.mean(para_day_2()[4]),5)*100}%",round(np.mean(para_day_2()[4])+np.mean(para_day()[4]),5),delta_color="inverse")
+    tab2.var1.metric("VaR of 90%", f"{round(np.mean(para_day_2()[0]),5)*100}%",round(np.mean(para_day_2()[0])-np.mean(para_day()[0]),5)*100,delta_color="inverse")
+    tab2.var2.metric("VaR of 95%", f"{round(np.mean(para_day_2()[2]),5)*100}%",round(np.mean(para_day_2()[2])-np.mean(para_day()[2]),5)*100,delta_color="inverse")
+    tab2.var3.metric("VaR of 99%", f"{round(np.mean(para_day_2()[4]),5)*100}%",round(np.mean(para_day_2()[4])-np.mean(para_day()[4]),5)*100,delta_color="inverse")
 
     tab2.cvar1, tab2.cvar2, tab2.cvar3 = st.columns(3)
-    tab2.cvar1.metric("CVaR of 90%", f"{round(np.mean(para_day_2()[1]),5)*100}%",round(np.mean(para_day_2()[1])+np.mean(para_day()[1]),5),delta_color="inverse")
-    tab2.cvar2.metric("CVaR of 95%", f"{round(np.mean(para_day_2()[3]),5)*100}%",round(np.mean(para_day_2()[3])+np.mean(para_day()[3]),5),delta_color="inverse")
-    tab2.cvar3.metric("CVaR of 99%", f"{round(np.mean(para_day_2()[5]),5)*100}%",round(np.mean(para_day_2()[5])+np.mean(para_day()[5]),5),delta_color="inverse")
+    tab2.cvar1.metric("CVaR of 90%", f"{round(np.mean(para_day_2()[1]),5)*100}%",round(np.mean(para_day_2()[1])-np.mean(para_day()[1]),5)*100,delta_color="inverse")
+    tab2.cvar2.metric("CVaR of 95%", f"{round(np.mean(para_day_2()[3]),5)*100}%",round(np.mean(para_day_2()[3])-np.mean(para_day()[3]),5)*100,delta_color="inverse")
+    tab2.cvar3.metric("CVaR of 99%", f"{round(np.mean(para_day_2()[5]),5)*100}%",round(np.mean(para_day_2()[5])-np.mean(para_day()[5]),5)*100,delta_color="inverse")
 
 
 ###################         Other risk measurement     ########################
