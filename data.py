@@ -48,9 +48,12 @@ print(test_weights)
 
 ###########################################################################################
 stocks_t2= {
-    '3859.KL': 'Magnum Bhd',
-    '4006.KL': 'Oriental Holdings Bhd',
-    '0078.KL': 'GDEX Bhd',
+    '0048.KL':'Ancom Logistics Berhad',
+    '0078.KL':'GDEX Bhd',
+    '5014.KL':'Malaysia Airports Holdings Bhd',
+    '7117.KL':'CJ Century Logistics Holdings Bhd',
+    '4863.KL':'Telekom Malaysia Bhd',
+    '6012.KL':'Maxis Bhd'
   
   
 }
@@ -67,7 +70,7 @@ df_m_2= yf.download(stock_code_2,start="2012-12-31", end="2022-12-31",interval =
 returns_s_2 = df_2["Adj Close"].pct_change().dropna() # stock return
 returns_s_m_2 = df_m_2["Adj Close"].pct_change().dropna()
 
-weights_2 = np.array([0.4,0.3,0.3])
+weights_2 = np.array([0.097,0.112,0.098,0.083,0.397,0.214])
 return_p_2 = (weights_2*returns_s_2).sum(axis=1)   #portfolio return
 return_p_m_2 = (weights_2*returns_s_m_2).sum(axis=1)
 
@@ -970,7 +973,7 @@ with tab2:
     
 ######################### weight od stock ##############################
 
-    st.header("Trader 2")
+    st.header("Trader 2 (Hao Cheong)")
     data_w = [{"value": weights, "name": stock_name, "itemStyle": {"color": colors_2[i]}} for i, (stock_name_2, weights_2) in enumerate(zip(stock_name_2, weights_2))]
     options = {
     "title": {"text": "Weight of stock", "subtext": "From Yfinance", "left": "center","textStyle": {"fontSize": 24}},
