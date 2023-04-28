@@ -1,5 +1,4 @@
 import streamlit as st # pip install streamlit
-
 from streamlit_echarts import st_echarts
 import numpy as np
 import yfinance as yf
@@ -7,14 +6,13 @@ import pandas as pd
 #Statistical calculation
 from scipy.stats import norm   
 import matplotlib.pyplot as plt
-import scipy.stats as stats
 
 
 stocks_data = {
     '3859.KL': 'Magnum Bhd',
     '4006.KL': 'Oriental Holdings Bhd',
     '0078.KL': 'GDEX Bhd',
- 
+  
 }
 
 stock_list = pd.DataFrame(list(stocks_data.items()), columns=['Stock Code', 'Company Name'])
@@ -22,11 +20,11 @@ stock_name = stock_list['Company Name'].tolist()
 stock_code = stock_list['Stock Code'].tolist()
 cofidence_interval = [0.9,0.95,0.99]  # less than 1
 
-df = yf.download(stock_code, start="2012-12-31", end="2022-12-31",interval ="1d")
-market_df = yf.download("^KLSE","2012-12-31","2012-12-31",interval ="1d")
+df = yf.download(stock_code, start="2012-12-31", end="2022-12-31",interval ="1wk")
+market_df = yf.download("^KLSE",start="2012-12-31", end="2022-12-31",interval ="1wk")
 
-df_m = yf.download(stock_code, start="2012-12-31", end="2022-12-31",interval ="1mo")
-market_df_m = yf.download("^KLSE","2012-12-31","2012-12-31",interval ="1mo")
+df_m = yf.download(stock_code,  start="2012-12-31", end="2022-12-31",interval ="1mo")
+market_df_m = yf.download("^KLSE", start="2012-12-31", end="2022-12-31",interval ="1mo")
 
 
 returns_m = market_df["Adj Close"].pct_change().dropna() # market return
@@ -46,15 +44,14 @@ colors = ['#FF3333', '#FE9D30','#EC65FC','#F9F92D','#70FA48','#48D7FA','#4863FA'
 
 test_weights = np.sum(weights) #test weight =1
 print(test_weights)
-#print(returns_m)
 
 
 ###########################################################################################
 stocks_t2= {
-    'AAPL': 'Apple Inc',
-    'MSFT': 'Mircosoft',
-    'AMZN':"Amazon",
-    'XOM':"Exxom"
+    '3859.KL': 'Magnum Bhd',
+    '4006.KL': 'Oriental Holdings Bhd',
+    '0078.KL': 'GDEX Bhd',
+  
   
 }
 
@@ -63,14 +60,14 @@ stock_name_2 = stock_list_t2['Company Name'].tolist()
 stock_code_2 = stock_list_t2['Stock Code'].tolist()
 
 
-df_2 = yf.download(stock_code_2, start="2014-1-02", end="2023-04-21",interval ="1d")
-df_m_2= yf.download(stock_code_2, start="2014-1-02", end="2023-04-21",interval ="1mo")
+df_2 = yf.download(stock_code_2, start="2012-12-31", end="2022-12-31",interval ="1wk")
+df_m_2= yf.download(stock_code_2,start="2012-12-31", end="2022-12-31",interval ="1mo")
 
 
 returns_s_2 = df_2["Adj Close"].pct_change().dropna() # stock return
 returns_s_m_2 = df_m_2["Adj Close"].pct_change().dropna()
 
-weights_2 = np.array([0.4,0.3,0.1,0.2])
+weights_2 = np.array([0.4,0.3,0.3])
 return_p_2 = (weights_2*returns_s_2).sum(axis=1)   #portfolio return
 return_p_m_2 = (weights_2*returns_s_m_2).sum(axis=1)
 
@@ -142,12 +139,12 @@ t_r = (rp-rf)/portfolio_beta
 
 ######################### Function Parametric Method of trader 1 ######################### 
 def para_day():
-     mean_1 = round(return_p.rolling(window=250).mean(),4)
+     mean_1 = round(return_p.rolling(window=500).mean(),4)
      mean_1 = np.nan_to_num(mean_1, nan=0)
      z_90 = norm.ppf(0.9) #z-score
      z_95 = norm.ppf(0.95)
      z_99 = norm.ppf(0.99)
-     portfolio_std = return_p.rolling(window=250).std()
+     portfolio_std = return_p.rolling(window=50).std()
      portfolio_std = np.nan_to_num(portfolio_std, nan=0)
      # VaR
      VaR_90 = (mean_1- z_90*portfolio_std).astype(float).round(4)
@@ -166,7 +163,7 @@ def para_day():
      return VaR_90,CVaR_90,VaR_95,CVaR_95,VaR_99,CVaR_99
  
 def para_month():
-    mean_m = round(return_p_m.rolling(window=20).mean(),4)
+    mean_m = round(return_p_m.rolling(window=10).mean(),4)
     mean_m = np.nan_to_num(mean_m, nan=0)
     z_90 = norm.ppf(0.9) #z-score
     z_95 = norm.ppf(0.95)
@@ -191,12 +188,12 @@ def para_month():
 
 ######################### Function Parametric Method of trader 2 #########################
 def para_day_2():
-    mean_1 = round(return_p_2.rolling(window=250).mean(),4)
+    mean_1 = round(return_p_2.rolling(window=50).mean(),4)
     mean_1 = np.nan_to_num(mean_1, nan=0)
     z_90 = norm.ppf(0.9) #z-score
     z_95 = norm.ppf(0.95)
     z_99 = norm.ppf(0.99)
-    portfolio_std = return_p_2.rolling(window=250).std()
+    portfolio_std = return_p_2.rolling(window=50).std()
     portfolio_std = np.nan_to_num(portfolio_std, nan=0)
      # VaR
     VaR_90 = (mean_1- z_90*portfolio_std).astype(float).round(4)
@@ -215,7 +212,7 @@ def para_day_2():
     return VaR_90,CVaR_90,VaR_95,CVaR_95,VaR_99,CVaR_99 
  
 def para_month_2():
-    mean_1 = round(return_p_m_2.rolling(window=20).mean(),4)
+    mean_1 = round(return_p_m_2.rolling(window=10).mean(),4)
     mean_1 = np.nan_to_num(mean_1, nan=0)
     z_90 = norm.ppf(0.9) #z-score
     z_95 = norm.ppf(0.95)
@@ -239,12 +236,12 @@ def para_month_2():
     return VaR_90,CVaR_90,VaR_95,CVaR_95,VaR_99,CVaR_99 
 
 def marketvar():
-    mean_1 = round(returns_m.rolling(window=250).mean())
+    mean_1 = round(returns_m.rolling(window=50).mean())
     mean_1 = np.nan_to_num(mean_1, nan=0)
     z_90 = norm.ppf(0.9) #z-score
     z_95 = norm.ppf(0.95)
     z_99 = norm.ppf(0.99)
-    portfolio_std = returns_m.rolling(window=250).std()
+    portfolio_std = returns_m.rolling(window=50).std()
     portfolio_std = np.nan_to_num(portfolio_std, nan=0)
      # VaR
     VaR_90 = (mean_1- z_90*portfolio_std).astype(float)
@@ -392,7 +389,7 @@ with t_1:
     st.subheader("Historical Method VaR & CVaR")
     
     if confidence_level == "90%" and period == 'Day':
-        VaR_90_Day = round(return_p.rolling(window=250).quantile(0.10),4)
+        VaR_90_Day = round(return_p.rolling(window=50).quantile(0.10),4)
         VaR_90_Day = np.array(np.nan_to_num(VaR_90_Day, nan=0))
         #av = (VaR_90_Day[VaR_90_Day<0]).tolist()
         #CVaR = [round(return_p[return_p<a].mean(),4) for a in av] # Calculate CVaR_90_Day
@@ -430,7 +427,7 @@ with t_1:
         plt.show()        
         
     if confidence_level == "95%" and period == 'Day':
-        VaR_95_Day = round(return_p.rolling(window=250).quantile(0.05),4)
+        VaR_95_Day = round(return_p.rolling(window=50).quantile(0.05),4)
         VaR_95_Day = np.nan_to_num(VaR_95_Day, nan=0)
         av = (VaR_95_Day).tolist()
         CVaR_95 = [round(return_p[return_p<a].mean(),4) for a in av] # Calculate CVaR_90_Day
@@ -464,7 +461,7 @@ with t_1:
         plt.show()  
         
     if confidence_level == "99%" and period == 'Day':
-      VaR_99_Day = round(return_p.rolling(window=250).quantile(0.01),4)
+      VaR_99_Day = round(return_p.rolling(window=50).quantile(0.01),4)
       VaR_99_Day = np.nan_to_num(VaR_99_Day, nan=0)
       av = (VaR_99_Day).tolist()
       CVaR_99 = [round(return_p[return_p<a].mean(),4) for a in av] # Calculate CVaR
@@ -491,7 +488,7 @@ with t_1:
       st_echarts(options=options, height="400px") 
     
     if confidence_level == "90%"and period == 'Month':
-      VaR_90 = round(return_p_m.rolling(window=20).quantile(0.10),4)
+      VaR_90 = round(return_p_m.rolling(window=10).quantile(0.10),4)
       VaR_90 = np.nan_to_num(VaR_90, nan=0)
       av = (VaR_90).tolist()
       CVaR = [round(return_p_m[return_p_m<a].mean(),4) for a in av] # Calculate CVaR
@@ -518,7 +515,7 @@ with t_1:
       st_echarts(options=options, height="400px") 
       
     if confidence_level == "95%"and period == 'Month':
-          VaR_95 = round(return_p_m.rolling(window=20).quantile(0.10),4)
+          VaR_95 = round(return_p_m.rolling(window=10).quantile(0.10),4)
           VaR_95 = np.nan_to_num(VaR_95, nan=0)
           av = (VaR_95).tolist()
           CVaR = [round(return_p_m[return_p_m<a].mean(),4) for a in av] # Calculate CVaR
@@ -545,7 +542,7 @@ with t_1:
           st_echarts(options=options, height="400px")
           
     if confidence_level == "99%"and period == 'Month':
-       VaR_99 = round(return_p_m.rolling(window=20).quantile(0.01),4)
+       VaR_99 = round(return_p_m.rolling(window=10).quantile(0.01),4)
        VaR_99 = np.nan_to_num(VaR_99, nan=0)
        av = (VaR_99).tolist()
        CVaR = [round(return_p_m[return_p_m<a].mean(),4) for a in av] # Calculate CVaR
@@ -757,9 +754,9 @@ with t_3:
     
     def var():
         
-        mean_1 = round(return_p.rolling(window=150).mean(),4)
+        mean_1 = round(return_p.rolling(window=50).mean(),4)
         mean_1 = np.nan_to_num(mean_1, nan=0)
-        portfolio_std = return_p.rolling(window=150).std()
+        portfolio_std = return_p.rolling(window=50).std()
         portfolio_std = np.nan_to_num(portfolio_std, nan=0)
         
         random_num = np.random.rand(len(return_p)) # function for random z-score,random choose len(returns) times
@@ -864,9 +861,9 @@ with t_3:
          st_echarts(options=options, height="500px")
     
     def mvar():
-        mean = round(return_p_m.rolling(window=15).mean(),4)
+        mean = round(return_p_m.rolling(window=10).mean(),4)
         mean = np.nan_to_num(mean, nan=0)
-        portfolio_std = return_p_m.rolling(window=20).std()
+        portfolio_std = return_p_m.rolling(window=10).std()
         portfolio_std = np.nan_to_num(portfolio_std, nan=0)
         
         random_num = np.random.rand(len(return_p_m)) # function for random z-score,random choose len(returns) times
@@ -1087,7 +1084,7 @@ with t_1:
     st.subheader("Historical Method VaR & CVaR")
     
     if confidence_level == "90%" and period == 'Day':
-        VaR_90_hd1 = round(return_p_2.rolling(window=250).quantile(0.10),4)
+        VaR_90_hd1 = round(return_p_2.rolling(window=50).quantile(0.10),4)
         VaR_90_hd1 = np.array(np.nan_to_num(VaR_90_hd1, nan=0))
         #av = (VaR_90_Day[VaR_90_Day<0]).tolist()
         #CVaR = [round(return_p[return_p<a].mean(),4) for a in av] # Calculate CVaR_90_Day
@@ -1127,7 +1124,7 @@ with t_1:
                
         
     if confidence_level == "95%" and period == 'Day':
-        VaR_95_hd1 = round(return_p.rolling(window=250).quantile(0.05),4)
+        VaR_95_hd1 = round(return_p.rolling(window=50).quantile(0.05),4)
         VaR_95_hd1 = np.nan_to_num(VaR_95_hd1, nan=0)
         av = (VaR_95_hd1).tolist()
         CVaR_95_hd1 = [round(return_p_2[return_p_2<a].mean(),4) for a in av] # Calculate CVaR_90_Day
@@ -1156,7 +1153,7 @@ with t_1:
         st_echarts(options=options, height="400px") 
         
     if confidence_level == "99%" and period == 'Day':
-      VaR_99_hd3 = round(return_p.rolling(window=250).quantile(0.01),4)
+      VaR_99_hd3 = round(return_p.rolling(window=50).quantile(0.01),4)
       VaR_99_hd3 = np.nan_to_num(VaR_99_hd3, nan=0)
       av = (VaR_99_hd3).tolist()
       CVaR_99_hd3 = [round(return_p_2[return_p_2<a].mean(),4) for a in av] # Calculate CVaR
@@ -1183,7 +1180,7 @@ with t_1:
       st_echarts(options=options, height="400px") 
     
     if confidence_level == "90%"and period == 'Month':
-      VaR_90_hm1 = round(return_p_m_2.rolling(window=20).quantile(0.10),4)
+      VaR_90_hm1 = round(return_p_m_2.rolling(window=10).quantile(0.10),4)
       VaR_90_hm1 = np.nan_to_num(VaR_90_hm1, nan=0)
       av = (VaR_90_hm1).tolist()
       CVaR_90_hm1 = [round(return_p_m_2[return_p_m_2<a].mean(),4) for a in av] # Calculate CVaR
@@ -1210,7 +1207,7 @@ with t_1:
       st_echarts(options=options, height="400px") 
       
     if confidence_level == "95%"and period == 'Month':
-          VaR_95_hm = round(return_p_m_2.rolling(window=20).quantile(0.10),4)
+          VaR_95_hm = round(return_p_m_2.rolling(window=10).quantile(0.10),4)
           VaR_95_hm = np.nan_to_num(VaR_95_hm, nan=0)
           av = (VaR_95_hm).tolist()
           CVaR_95_hm = [round(return_p_m_2[return_p_m_2<a].mean(),4) for a in av] # Calculate CVaR
@@ -1237,7 +1234,7 @@ with t_1:
           st_echarts(options=options, height="400px")
           
     if confidence_level == "99%"and period == 'Month':
-       VaR_99_hm = round(return_p_m_2.rolling(window=20).quantile(0.01),4)
+       VaR_99_hm = round(return_p_m_2.rolling(window=10).quantile(0.01),4)
        VaR_99_hm = np.nan_to_num(VaR_99_hm, nan=0)
        av = (VaR_99_hm).tolist()
        CVaR_99_hm = [round(return_p_m_2[return_p_m_2<a].mean(),4) for a in av] # Calculate CVaR
@@ -1450,9 +1447,9 @@ with t_3:
         option_2 = st.selectbox('Period', ('Day', 'Month'),key='period_t3_3')
         
         def var2(): 
-            mean_1 = round(return_p_2.rolling(window=250).mean(),4) # group 150 daily VaR as a sample
+            mean_1 = round(return_p_2.rolling(window=50).mean(),4) # group 150 daily VaR as a sample
             mean_1 = np.nan_to_num(mean_1, nan=0)
-            portfolio_std = return_p_2.rolling(window=250).std() 
+            portfolio_std = return_p_2.rolling(window=50).std() 
             portfolio_std = np.nan_to_num(portfolio_std, nan=0)  # group 150 daily VaR as a sample tp find standard deviation
             
             random_num = np.random.rand(len(return_p)) # function for random z-score,random choose len(returns) times
@@ -1482,9 +1479,9 @@ with t_3:
         
         def mvar2():
             
-            mean_1 = round(return_p_m_2.rolling(window=15).mean(),4)
+            mean_1 = round(return_p_m_2.rolling(window=10).mean(),4)
             mean_1 = np.nan_to_num(mean_1, nan=0)
-            portfolio_std = return_p_m_2.rolling(window=20).std()
+            portfolio_std = return_p_m_2.rolling(window=10).std()
             portfolio_std = np.nan_to_num(portfolio_std, nan=0)
             
             random_num = np.random.rand(len(return_p_m_2)) # function for random z-score,random choose len(returns) times
@@ -1670,6 +1667,7 @@ plt.xlabel('Monte Carlo var vs Cvar of trader 2 in 90% Confidence Level')
 plt.show()
 
 
- 
+  
+
         
     
