@@ -11,14 +11,10 @@ import scipy.stats as stats
 
 
 stocks_data = {
-    'AAPL': 'Apple Inc',
-    'MSFT': 'Mircosoft',
-    'AMZN':"Amazon",
-    'NVDA':"NVIDIA",
-    'GOOGL':"Google",
-    'BRK-B':"Berkshire Hatway",
-    "META":"Facebook"
-  
+    '3859.KL': 'Magnum Bhd',
+    '4006.KL': 'Oriental Holdings Bhd',
+    '0078.KL': 'GDEX Bhd',
+ 
 }
 
 stock_list = pd.DataFrame(list(stocks_data.items()), columns=['Stock Code', 'Company Name'])
@@ -26,18 +22,18 @@ stock_name = stock_list['Company Name'].tolist()
 stock_code = stock_list['Stock Code'].tolist()
 cofidence_interval = [0.9,0.95,0.99]  # less than 1
 
-df = yf.download(stock_code, start="2014-01-02", end="2023-04-21",interval ="1d")
-market_df = yf.download("^GSPC","2014-1-02","2023-4-21",interval ="1d")
+df = yf.download(stock_code, start="2012-12-31", end="2022-12-31",interval ="1d")
+market_df = yf.download("^KLSE","2012-12-31","2012-12-31",interval ="1d")
 
-df_m = yf.download(stock_code, start="2014-01-02", end="2023-04-21",interval ="1mo")
-market_df_m = yf.download("^GSPC","2014-1-02","2023-4-21",interval ="1mo")
+df_m = yf.download(stock_code, start="2012-12-31", end="2022-12-31",interval ="1mo")
+market_df_m = yf.download("^KLSE","2012-12-31","2012-12-31",interval ="1mo")
 
 
 returns_m = market_df["Adj Close"].pct_change().dropna() # market return
 returns_s = df["Adj Close"].pct_change().dropna() # stock return
 returns_s_m = df_m["Adj Close"].pct_change().dropna()
 
-weights = np.array([0.31,0.27,0.1,0.095,0.084,0.081,0.06])
+weights = np.array([0.2968,0.3434,0.3598])
 return_p = (weights*returns_s).sum(axis=1)   #portfolio return
 return_p_m = (weights*returns_s_m).sum(axis=1)
 
@@ -281,7 +277,7 @@ st.caption('Risk Manager: Ng Wen Kang')
 tab1, tab2 = st.tabs(["Trader 1 ", "Trader 2"])
 
 with tab1:
-   st.header("Trader 1")
+   st.header("Trader 1 (Gina)")
    data_w = [{"value": weights, "name": stock_name, "itemStyle": {"color": colors[i]}} for i, (stock_name, weights) in enumerate(zip(stock_name, weights))]
    options = {
     "title": {"text": "Weight of stock", "subtext": "From Yfinance", "left": "center","textStyle": {"fontSize": 24}},
