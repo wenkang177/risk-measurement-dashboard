@@ -383,12 +383,12 @@ with t_1:
       confidence_level = st.radio("Confidence Level", ("90%","95%","99%"), key='confidence_level_t1')
       
     with period:
-          period = st.selectbox('Period', ('Day', 'Month'),key='period_t1')
+          period = st.selectbox('Period', ('Weekly', 'Month'),key='period_t1')
 
 
     st.subheader("Historical Method VaR & CVaR")
     
-    if confidence_level == "90%" and period == 'Day':
+    if confidence_level == "90%" and period == 'Weekly':
         VaR_90_Day = round(return_p.rolling(window=50).quantile(0.10),4)
         VaR_90_Day = np.array(np.nan_to_num(VaR_90_Day, nan=0))
         #av = (VaR_90_Day[VaR_90_Day<0]).tolist()
@@ -426,7 +426,7 @@ with t_1:
         plt.xlabel('Historical var vs Cvar of trader 1 in 90% Cofidence Level')
         plt.show()        
         
-    if confidence_level == "95%" and period == 'Day':
+    if confidence_level == "95%" and period == 'Weekly':
         VaR_95_Day = round(return_p.rolling(window=50).quantile(0.05),4)
         VaR_95_Day = np.nan_to_num(VaR_95_Day, nan=0)
         av = (VaR_95_Day).tolist()
@@ -460,7 +460,7 @@ with t_1:
         plt.xlabel('Historical var vs Cvar of trader 1 in 95% Cofidence Level')
         plt.show()  
         
-    if confidence_level == "99%" and period == 'Day':
+    if confidence_level == "99%" and period == 'Weekly':
       VaR_99_Day = round(return_p.rolling(window=50).quantile(0.01),4)
       VaR_99_Day = np.nan_to_num(VaR_99_Day, nan=0)
       av = (VaR_99_Day).tolist()
@@ -582,11 +582,11 @@ with t_2:
       option_1= st.radio("Confidence Level", ("90%","95%","99%"), key='confidence_level_t2')
 
     with option_2:
-        option_2 = st.selectbox('Period', ('Day', 'Month'),key='period_t2')
+        option_2 = st.selectbox('Period', ('Weekly', 'Month'),key='period_t2')
         
     st.subheader("Parametric Method VaR & CVaR")
         
-    if option_1 == "90%" and option_2 == 'Day':
+    if option_1 == "90%" and option_2 == 'Weekly':
         
        
         options = {
@@ -617,7 +617,7 @@ with t_2:
         plt.xlabel('Parametric var vs Cvar of trade 1 in 90% confidence level')
         plt.show()
         
-    elif option_1 == "95%" and option_2 == 'Day':
+    elif option_1 == "95%" and option_2 == 'Weekly':
      
       options = {
           "title": {"text":"VaR & CVaR"},
@@ -641,7 +641,7 @@ with t_2:
           ],
       }
       st_echarts(options=options, height="500px")  
-    elif option_1 == "99%" and option_2 == 'Day':
+    elif option_1 == "99%" and option_2 == 'Weekly':
      
      
       options = {
@@ -748,7 +748,7 @@ with t_3:
       option_1 = st.radio("Confidence Level", ("90%","95%","99%"), key='confidence_level_t3')
 
     with option_2:
-        option_2 = st.selectbox('Period', ('Day', 'Month'),key='period_t3')
+        option_2 = st.selectbox('Period', ('Weekly', 'Month'),key='period_t3')
 
     st.subheader("Mento Carlo Method VaR & CVaR")  
     
@@ -784,7 +784,7 @@ with t_3:
 
         return(VaR_90,CVaR_90,VaR_95,CVaR_95,VaR_99,CVaR_99)
        
-    if option_1 == "90%"and option_2 == 'Day':
+    if option_1 == "90%"and option_2 == 'Weekly':
         options = {
         "title": {"text":"VaR & CVaR"},
         "tooltip": {"trigger": "axis"},
@@ -813,7 +813,7 @@ with t_3:
         plt.xlabel('Monte Carlo var vs Cvar of trader 1 in 90 %confidence level')
         plt.show()
         
-    if option_1 == "95%"and option_2 == 'Day':
+    if option_1 == "95%"and option_2 == 'Weekly':
          options = {
          "title": {"text":"VaR & CVaR"},
          "tooltip": {"trigger": "axis"},
@@ -836,7 +836,7 @@ with t_3:
          ],
      }
          st_echarts(options=options, height="500px")     
-    if option_1 == "99%"and option_2 == 'Day':     
+    if option_1 == "99%"and option_2 == 'Weekly':     
          options = {
          "title": {"text":"VaR & CVaR"},
          "tooltip": {"trigger": "axis"},
@@ -1078,12 +1078,12 @@ with t_1:
       confidence_level = st.radio("Confidence Level", ("90%","95%","99%"), key='confidence_level_t1_4')
       
     with period:
-          period = st.selectbox('Period', ('Day', 'Month'),key='period_t1_1_4')
+          period = st.selectbox('Period', ('Weekly', 'Month'),key='period_t1_1_4')
 
 
     st.subheader("Historical Method VaR & CVaR")
     
-    if confidence_level == "90%" and period == 'Day':
+    if confidence_level == "90%" and period == 'Weekly':
         VaR_90_hd1 = round(return_p_2.rolling(window=50).quantile(0.10),4)
         VaR_90_hd1 = np.array(np.nan_to_num(VaR_90_hd1, nan=0))
         #av = (VaR_90_Day[VaR_90_Day<0]).tolist()
@@ -1123,7 +1123,7 @@ with t_1:
         plt.show()  
                
         
-    if confidence_level == "95%" and period == 'Day':
+    if confidence_level == "95%" and period == 'Weekly':
         VaR_95_hd1 = round(return_p.rolling(window=50).quantile(0.05),4)
         VaR_95_hd1 = np.nan_to_num(VaR_95_hd1, nan=0)
         av = (VaR_95_hd1).tolist()
@@ -1152,7 +1152,7 @@ with t_1:
                 ]}
         st_echarts(options=options, height="400px") 
         
-    if confidence_level == "99%" and period == 'Day':
+    if confidence_level == "99%" and period == 'Weekly':
       VaR_99_hd3 = round(return_p.rolling(window=50).quantile(0.01),4)
       VaR_99_hd3 = np.nan_to_num(VaR_99_hd3, nan=0)
       av = (VaR_99_hd3).tolist()
@@ -1274,11 +1274,11 @@ with t_2:
       option_1= st.radio("Confidence Level", ("90%","95%","99%"), key='confidence_level_t2_1')
 
     with option_2:
-        option_2 = st.selectbox('Period', ('Day', 'Month'),key='period_t2_1')
+        option_2 = st.selectbox('Period', ('Weekly', 'Month'),key='period_t2_1')
         
     st.subheader("Parametric Method VaR & CVaR")
         
-    if option_1 == "90%" and option_2 == 'Day':
+    if option_1 == "90%" and option_2 == 'Weekly':
         
 
         options = {
@@ -1309,7 +1309,7 @@ with t_2:
         plt.xlabel('Parametric var vs Cvar of trader 2 in 90% Confidence Level' )
         plt.show()
         
-    if option_1 == "95%" and option_2 == 'Day':
+    if option_1 == "95%" and option_2 == 'Weekly':
      
       options = {
           "title": {"text":"VaR & CVaR"},
@@ -1333,7 +1333,7 @@ with t_2:
           ],
       }
       st_echarts(options=options, height="500px")  
-    if option_1 == "99%" and option_2 == 'Day':
+    if option_1 == "99%" and option_2 == 'Weekly':
      
       options = {
           "title": {"text":"VaR & CVaR"},
@@ -1444,7 +1444,7 @@ with t_3:
       option_1 = st.radio("Confidence Level", ("90%","95%","99%"), key='confidence_level_t3_3')
 
     with option_2:
-        option_2 = st.selectbox('Period', ('Day', 'Month'),key='period_t3_3')
+        option_2 = st.selectbox('Period', ('Weekly', 'Month'),key='period_t3_3')
         
         def var2(): 
             mean_1 = round(return_p_2.rolling(window=50).mean(),4) # group 150 daily VaR as a sample
@@ -1512,7 +1512,7 @@ with t_3:
 
     st.subheader("Mento Carlo Method VaR & CVaR")  
 
-    if option_1 == "90%"and option_2 == 'Day':
+    if option_1 == "90%"and option_2 == 'Weekly':
         options = {
         "title": {"text":"VaR & CVaR"},
         "tooltip": {"trigger": "axis"},
@@ -1539,7 +1539,7 @@ with t_3:
 
         
       
-    if option_1 == "95%"and option_2 == 'Day':
+    if option_1 == "95%"and option_2 == 'Weekly':
          options = {
          "title": {"text":"VaR & CVaR"},
          "tooltip": {"trigger": "axis"},
@@ -1561,8 +1561,8 @@ with t_3:
               "data": var2()[3]},
          ],
      }
-         st_echarts(options=options, height="500px")     
-    if option_1 == "99%"and option_2 == 'Day':     
+         st_echarts(options=options, height="Weekly")     
+    if option_1 == "99%"and option_2 == 'Weekly':     
          options = {
          "title": {"text":"VaR & CVaR"},
          "tooltip": {"trigger": "axis"},
