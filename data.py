@@ -58,6 +58,7 @@ stocks_t2= {
   
 }
 
+
 stock_list_t2 = pd.DataFrame(list(stocks_t2.items()), columns=['Stock Code', 'Company Name'])
 stock_name_2 = stock_list_t2['Company Name'].tolist()
 stock_code_2 = stock_list_t2['Stock Code'].tolist()
@@ -70,7 +71,7 @@ df_m_2= yf.download(stock_code_2,start="2012-12-31", end="2022-12-31",interval =
 returns_s_2 = df_2["Adj Close"].pct_change().dropna() # stock return
 returns_s_m_2 = df_m_2["Adj Close"].pct_change().dropna()
 
-weights_2 = np.array([0.097,0.112,0.098,0.083,0.397,0.214])
+weights_2 = np.array([0.118,0.107,0.089,0.076,0.409,0.202])
 return_p_2 = (weights_2*returns_s_2).sum(axis=1)   #portfolio return
 return_p_m_2 = (weights_2*returns_s_m_2).sum(axis=1)
 
@@ -337,7 +338,14 @@ with tab1:
     tab1.col2.metric("Standard Deviation", f"{round(portfolio_std_dev,4)}",round(portfolio_std_dev-portfolio_std_dev_2,3))
     tab1.col3.metric("Sharpe ratio", f"{round(sharpe_ratio,2)}",round(sharpe_ratio-sharpe_ratio_2,3) )
     tab1.col4.metric("Treynor Ratio",f"{round(t_r,2)}",round(t_r-t_r_2,3))
-    
+
+tab1.subheader("Market risk meaurement")
+with tab1:
+    tab1.col1, tab1.col2, tab1.col3 = st.columns(3)
+    tab1.col1.metric("Market Expected Return", f"{round(Expected_rm*100,4)}%", round((return_p.mean()-Expected_rm)*100,3))
+    tab1.col2.metric("Standard Deviation ", f"{round(returns_m.std(),4)}",round(portfolio_std_dev-returns_m.std(),3),delta_color="inverse")
+    tab1.col3.metric("Market Sharpe Ratio", f"{round(Expected_rm/returns_m.std(),4)}",round(sharpe_ratio-Expected_rm/returns_m.std(),3)) 
+   
 
 
 ##############   ########################  ######################   ############
@@ -1008,6 +1016,7 @@ with tab2:
     'Confidence Level': ["90%", "95%", "99%"],
     'Value at risk': [marketvar()[0], marketvar()[2], marketvar()[4]],
     'Conditional Value at risk': [marketvar()[1], marketvar()[3], marketvar()[5]],
+    'Market Expecte Return':""
 }))
 
        
@@ -1016,14 +1025,14 @@ with tab2:
     st.caption('This is using Parametric Method Mehtod to calculate .')
     
     tab2.var1, tab2.var2, tab2.var3 = st.columns(3)
-    tab2.var1.metric("VaR of 90%", f"{round(np.mean(para_day_2()[0]),5)*100}%",round(np.mean(para_day_2()[0])-np.mean(para_day()[0]),5)*100,delta_color="inverse")
-    tab2.var2.metric("VaR of 95%", f"{round(np.mean(para_day_2()[2]),5)*100}%",round(np.mean(para_day_2()[2])-np.mean(para_day()[2]),5)*100,delta_color="inverse")
-    tab2.var3.metric("VaR of 99%", f"{round(np.mean(para_day_2()[4]),5)*100}%",round(np.mean(para_day_2()[4])-np.mean(para_day()[4]),5)*100,delta_color="inverse")
+    tab2.var1.metric("VaR of 90%", f"{round(np.mean(para_day_2()[0]),5)*100}%",round(np.mean(abs(para_day_2()[0]))-np.mean(abs(para_day()[0])),5)*100,delta_color="inverse")
+    tab2.var2.metric("VaR of 95%", f"{round(np.mean(para_day_2()[2]),5)*100}%",round(np.mean(abs(para_day_2()[2]))-np.mean(abs(para_day()[2])),5)*100,delta_color="inverse")
+    tab2.var3.metric("VaR of 99%", f"{round(np.mean(para_day_2()[4]),5)*100}%",round(np.mean(abs(para_day_2()[4]))-np.mean(abs(para_day()[4])),5)*100,delta_color="inverse")
 
     tab2.cvar1, tab2.cvar2, tab2.cvar3 = st.columns(3)
-    tab2.cvar1.metric("CVaR of 90%", f"{round(np.mean(para_day_2()[1]),5)*100}%",round(np.mean(para_day_2()[1])-np.mean(para_day()[1]),5)*100,delta_color="inverse")
-    tab2.cvar2.metric("CVaR of 95%", f"{round(np.mean(para_day_2()[3]),5)*100}%",round(np.mean(para_day_2()[3])-np.mean(para_day()[3]),5)*100,delta_color="inverse")
-    tab2.cvar3.metric("CVaR of 99%", f"{round(np.mean(para_day_2()[5]),5)*100}%",round(np.mean(para_day_2()[5])-np.mean(para_day()[5]),5)*100,delta_color="inverse")
+    tab2.cvar1.metric("CVaR of 90%", f"{round(np.mean(para_day_2()[1]),5)*100}%",round(np.mean(abs(para_day_2()[1]))-np.mean(abs(para_day()[1])),5)*100,delta_color="inverse")
+    tab2.cvar2.metric("CVaR of 95%", f"{round(np.mean(para_day_2()[3]),5)*100}%",round(np.mean(abs(para_day_2()[3]))-np.mean(abs(para_day()[3])),5)*100,delta_color="inverse")
+    tab2.cvar3.metric("CVaR of 99%", f"{round(np.mean(para_day_2()[5]),5)*100}%",round(np.mean(abs(para_day_2()[5]))-np.mean(abs(para_day()[5])),5)*100,delta_color="inverse")
 
 
 ###################         Other risk measurement     ########################
@@ -1034,7 +1043,12 @@ with tab2:
     tab2.col2.metric("Standard Deviation", f"{round(portfolio_std_dev_2,4)}",round(portfolio_std_dev_2-portfolio_std_dev,3))
     tab2.col3.metric("Sharpe ratio", f"{round(sharpe_ratio_2,2)}",round(sharpe_ratio_2-sharpe_ratio,3) )
     tab2.col4.metric("Treynor Ratio",f"{round(t_r_2,2)}",round(t_r_2-t_r,3))
-    
+
+with tab2:
+        tab2.col1, tab2.col2, tab2.col3 = st.columns(3)
+        tab2.col1.metric("Market Expected Return", f"{round(Expected_rm*100,4)}%", round(return_p_2.mean()*100-Expected_rm*100,3))
+        tab2.col2.metric("Standard Deviation ", f"{round(returns_m.std(),4)}",round(portfolio_std_dev_2-returns_m.std(),3),delta_color="inverse")
+        tab2.col3.metric("Market Sharpe Ratio", f"{round(Expected_rm/returns_m.std(),4)}",round(sharpe_ratio_2-Expected_rm/returns_m.std(),3)) 
 ##############   ########################  ######################   ############
 
 data_2 = [{"value": beta_2, "name": stock_name_2, "itemStyle": {"color": colors_2[i]}} for i, (stock_name_2, beta_2) in enumerate(zip(stock_name_2, betas_2))]
