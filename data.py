@@ -1016,7 +1016,6 @@ with tab2:
     'Confidence Level': ["90%", "95%", "99%"],
     'Value at risk': [marketvar()[0], marketvar()[2], marketvar()[4]],
     'Conditional Value at risk': [marketvar()[1], marketvar()[3], marketvar()[5]],
-    'Market Expecte Return':""
 }))
 
        
